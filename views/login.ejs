@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <style type="text/css">
+        body {
+            color: #f9f5dc;
+            background-color: #7f53ac;
+            background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+            text-align: center; font-size: 20px; font-variant: small-caps;
+        }
+        form {
+            padding: 20%;
+        }
+        input{
+            width: 250px;
+        }
+        p{
+            font-size: 20px;
+        }
+    </style>
+    <head>
+         <title> Login </title>
+    </head>
+    <body>
+        <div id="form-div">
+            <form action="/login/" method="POST">
+                Email ID <br>
+                <input type="email" name="email">
+                <br><br>
+                Password <br>
+                <input type="password" name="password">
+                <br><br>
+                <input type="submit" value="Login"/>
+            </form>
+        </div>
+    </body>
+</html>

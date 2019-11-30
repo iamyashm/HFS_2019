@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Offer tokens </title>
+    <style type="text/css">
+         body {
+            color: #f9f5dc;
+            background-color: #7f53ac;
+            background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+            text-align: center; font-size: 25px; font-variant: small-caps;
+        }
+        li{
+            font-family: 'Times New Roman';
+            list-style: none;
+            display: block;
+            color: #ffd979;
+        }
+
+        input{
+            transform: scale(1.5);
+        }
+        button{
+            margin: 5%;
+        }
+        a:link {
+            text-decoration: none;
+        }
+        #searchbox{
+            background-position: 10px 12px;
+            background-repeat: no-repeat;
+            background-color: #eee;
+            width: 30%;
+            padding: 6px 20px 6px 30px;
+            border: 1px solid navy;
+            margin-top: 50px;
+            margin-bottom: 12px;
+            border-radius: 30px;
+        }
+
+
+    </style>
+    <script src="./scan/jquery.min.js"></script>
+    <script type="text/javascript">
+        function send(){
+            var selectedUsers = []
+            $("input:checkbox[name=user]:checked").each(function(){
+                var x = JSON.parse($(this).val())
+                selectedUsers.push(x)
+            })
+            console.log(JSON.stringify(selectedUsers))
+            $.ajax({
+                url:"/sendtoken",
+                type:"POST",
+                dataType:"json",
+                contentType: "application/json",
+                data:JSON.stringify({recipients: selectedUsers}),
+                success: res=> {
+                    alert(res.message)
+                },
+                error: ()=> alert('Tokens could not be sent :(')
+            })
+        }
+        function searchFilter() {
+          var input, regno, filter, ul, li, a, i, txtValue;
+          input = document.getElementById("searchbox");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("list");
+          li = ul.getElementsByTagName("li");
+          var count = 0;
+          for (i = 0; i < li.length; i++) {
+              a = li[i].getElementsByTagName("pre")[0];
+              txtValue = a.textContent || a.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  li[i].style.display = "block";
+              } else {
+                  li[i].style.display = "none";
+              }
+          }
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="searchbox" onkeyup="searchFilter()" placeholder="Enter name/registration number of receiver.." >
+<!-- .........................................................................................-->
+
+
+
+<!-- .........................................................................................-->
+    <ul id="list">
+        <% for(var i = 0; i < userList.length; i++) { %>
+         <li><input id="element" type="checkbox" name="user" value='{&quot;name&quot:&quot;<%= userList[i].name %>&quot;, &quot;reg_no&quot:<%= userList[i].reg_no %>}'><pre>
+ <%= userList[i].name %>,
+ <%= userList[i].reg_no %></pre><br><br></li>
+
+        <% } %>
+    </ul>
+    <button onclick="send()">Send Tokens</button>
+    <button><a href="../profile">Profile</a></button>
+    <button><a href="../logout">Logout</a></button>
+</body>
+</html>
